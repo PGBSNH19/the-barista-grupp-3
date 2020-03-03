@@ -10,49 +10,58 @@ namespace Barista
     {
         static void Main(string[] args)
         {
+            var barista = new Barista();
+            var coffeeMaker = new CoffeeMaker();
+            var bean = new Bean();
+            var cup = new Cup();
+            var smallEspresso=new Espresso().AddWater( smallEspresso, 5).
         }
     }
 
 
-    interface IBarista
+    interface IEspresso
     {
-        IBarista Brew();
-        IBarista AddWater();
-        IBarista AddBeans();
-        IBarista AddToCup(int volume);
+        void Brew();
+        void AddWater(Espresso e, int amount);
+        void AddBeans(Espresso e, int amount,string sort);
+        void AddToCup(int volume);
         void GrindBeans(string cupVolume, string brand);
         
     }
 
 
-    class Barista : IBarista
+    class Espresso :IEspresso
     {
-        public IBarista AddBeans()
-        {
 
-            throw new NotImplementedException();
+        public int WaterAmount;
+        public int BeanAMount;
+        public string Sort;
+
+        public void AddBeans(Espresso e, int amount, string sort)
+        {
+            e.BeanAMount = amount;
+            e.Sort = sort;
+            
         }
 
-        public IBarista AddToCup(int volume)
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBarista AddWater()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBarista Brew()
+        public void AddToCup(int volume)
         {
             throw new NotImplementedException();
         }
+
+        public void AddWater(Espresso e, int amount)
+        {
+            e.WaterAmount = amount;
+        }
+
+        public void Brew()
+        {
+            throw new NotImplementedException();
+        }
+
         public void GrindBeans(string cupVolume, string brand)
         {
-            switch (cupVolume)
-            {
-            }
-
+            throw new NotImplementedException();
         }
     }
 
@@ -128,12 +137,12 @@ namespace Barista
 
     class Cup
     {
-        private int _volume;
+        private int _volumeInCl;
 
-        public int Volume
+        public int VolumeInCl
         {
-            get { return _volume; }
-            set { _volume = value; }
+            get { return _volumeInCl; }
+            set { _volumeInCl = value; }
         }
         private bool _isTakeAway;
 
@@ -145,4 +154,5 @@ namespace Barista
 
 
     }
+
 }
