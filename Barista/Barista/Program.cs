@@ -10,11 +10,8 @@ namespace Barista
     {
         static void Main(string[] args)
         {
-            var barista = new Barista();
-            var coffeeMaker = new CoffeeMaker();
-            var bean = new Bean();
-            var cup = new Cup();
-            var smallEspresso=new Espresso().AddWater( smallEspresso, 5).
+
+            var smallEspresso = new Espresso().AddBean(5, "arabica").AddWater(6);
         }
     }
 
@@ -22,8 +19,8 @@ namespace Barista
     interface IEspresso
     {
         void Brew();
-        void AddWater(Espresso e, int amount);
-        void AddBeans(Espresso e, int amount,string sort);
+        IEspresso AddWater(int amount);
+        IEspresso AddBean(int amount,string sort);
         void AddToCup(int volume);
         void GrindBeans(string cupVolume, string brand);
         
@@ -32,16 +29,17 @@ namespace Barista
 
     class Espresso :IEspresso
     {
-
+        
         public int WaterAmount;
         public int BeanAMount;
         public string Sort;
 
-        public void AddBeans(Espresso e, int amount, string sort)
+        public IEspresso AddBean(int amount, string sort)
         {
-            e.BeanAMount = amount;
-            e.Sort = sort;
-            
+            BeanAMount = amount;
+            Sort = sort;
+
+            return this;
         }
 
         public void AddToCup(int volume)
@@ -49,9 +47,10 @@ namespace Barista
             throw new NotImplementedException();
         }
 
-        public void AddWater(Espresso e, int amount)
+        public IEspresso AddWater(int amount)
         {
-            e.WaterAmount = amount;
+            WaterAmount = amount;
+            return this;
         }
 
         public void Brew()
