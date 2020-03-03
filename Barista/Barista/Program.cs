@@ -51,19 +51,8 @@ namespace Barista
         {
             switch (cupVolume)
             {
-                case "single":
-                    return
-                    break;
-                case "double":
-                    Console.WriteLine("Grinding beans for a double espresso!");
-                    break;
-                    case "triple"
-
-                default:
-                    break;
             }
 
-            Console.WriteLine("Grinding beans");
         }
     }
 
