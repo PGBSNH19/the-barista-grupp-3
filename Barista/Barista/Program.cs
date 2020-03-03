@@ -20,7 +20,7 @@ namespace Barista
         IBarista AddWater();
         IBarista AddBeans();
         IBarista AddToCup(int volume);
-        IBarista CheckBeans();
+        bool CheckBeans(Bean bean);
         IBarista GrindBeans(int WeightGram, string brand);
         
     }
@@ -28,8 +28,14 @@ namespace Barista
 
     class Barista : IBarista
     {
+        public bool CheckBeans(Bean bean)
+        {
+            return bean.IsGrinded;
+            
+        }
         public IBarista AddBeans()
         {
+
             throw new NotImplementedException();
         }
 
@@ -48,10 +54,6 @@ namespace Barista
             throw new NotImplementedException();
         }
 
-        public IBarista CheckBeans()
-        {
-            throw new NotImplementedException();
-        }
 
         public IBarista GrindBeans(int weightGram, string brand)
         {
@@ -129,9 +131,23 @@ namespace Barista
 
     }
 
-    class CoffieGrinder
+    class Cup
     {
+        private int _volume;
+
+        public int Volume
+        {
+            get { return _volume; }
+            set { _volume = value; }
+        }
+        private bool _isTakeAway;
+
+        public bool IsTakeAway
+        {
+            get { return _isTakeAway; }
+            set { _isTakeAway = value; }
+        }
+
 
     }
-
 }
