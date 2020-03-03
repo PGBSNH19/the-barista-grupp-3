@@ -20,19 +20,13 @@ namespace Barista
         IBarista AddWater();
         IBarista AddBeans();
         IBarista AddToCup(int volume);
-        bool CheckBeans(Bean bean);
-        IBarista GrindBeans(int WeightGram, string brand);
+        void GrindBeans(string cupVolume, string brand);
         
     }
 
 
     class Barista : IBarista
     {
-        public bool CheckBeans(Bean bean)
-        {
-            return bean.IsGrinded;
-            
-        }
         public IBarista AddBeans()
         {
 
@@ -53,16 +47,28 @@ namespace Barista
         {
             throw new NotImplementedException();
         }
-
-
-        public IBarista GrindBeans(int weightGram, string brand)
+        public void GrindBeans(string cupVolume, string brand)
         {
-            throw new NotImplementedException();
+            switch (cupVolume)
+            {
+                case "single":
+                    return
+                    break;
+                case "double":
+                    Console.WriteLine("Grinding beans for a double espresso!");
+                    break;
+                    case "triple"
+
+                default:
+                    break;
+            }
+
+            Console.WriteLine("Grinding beans");
         }
     }
 
 
-    class CoffieMaker
+    class CoffeeMaker
     {
         private double _temp;
 
