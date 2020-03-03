@@ -10,7 +10,8 @@ namespace Barista
     {
         static void Main(string[] args)
         {
-            var smallEspresso = new Espresso().AddBean(2,"asd").AddWater(6);
+            
+            var smallEspresso = new Espresso().AddBean(5,"Arabic").AddWater(6);
         }
     }
 
@@ -20,7 +21,7 @@ namespace Barista
         void Brew();
         IEspresso AddWater(int amount);
         IEspresso AddBean(int amount,string sort);
-        void AddToCup(int volume);
+        IEspresso AddToCup();
         
     }
 
@@ -31,7 +32,7 @@ namespace Barista
         public int WaterAmount;
         public int BeanAMount;
         public string Sort;
-
+        public Cup myCup;
         public IEspresso AddBean(int amount, string sort)
         {
             //här hämtar vi ur en lista med bönor
@@ -42,9 +43,13 @@ namespace Barista
             return this;
         }
 
-        public void AddToCup(int volume)
+        public IEspresso AddToCup()
         {
-            throw new NotImplementedException();
+            if (WaterAmount>10)
+            {
+
+            }
+            return this;
         }
 
         public IEspresso AddWater(int amount)
@@ -91,10 +96,7 @@ namespace Barista
     }
     class Bean
     {
-        public Bean(string beanType)
-        {
-            BeanType = beanType;
-        }
+        
         public string BeanType { get; set; }
         public int AmountInG { get; set; }
 
