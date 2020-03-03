@@ -20,6 +20,9 @@ namespace Barista
         IBarista AddWater();
         IBarista AddBeans();
         IBarista AddToCup(int volume);
+        IBarista CheckBeans();
+        IBarista GrindBeans(int WeightGram, string brand);
+        
     }
 
 
@@ -41,6 +44,16 @@ namespace Barista
         }
 
         public IBarista Brew()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBarista CheckBeans()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBarista GrindBeans(int weightGram, string brand)
         {
             throw new NotImplementedException();
         }
@@ -79,7 +92,7 @@ namespace Barista
     {
         private string _origin;
 
-        public string _originrigin 
+        public string Origin 
         {
             get { return _origin; }
             set { _origin = value; }
@@ -98,14 +111,26 @@ namespace Barista
             get { return _roast; }
             set { _roast = value; }
         }
-        private int myVar;
+        private bool _isGrinded;
 
-        public int MyProperty
+        public bool IsGrinded
         {
-            get { return myVar; }
-            set { myVar = value; }
+            get { return _isGrinded; }
+            set { _isGrinded = value; }
         }
 
+        private string _brand;
+
+        public string Brand
+        {
+            get { return _brand; }
+            set { _brand = value; }
+        }
+
+    }
+
+    class CoffieGrinder
+    {
 
     }
 
