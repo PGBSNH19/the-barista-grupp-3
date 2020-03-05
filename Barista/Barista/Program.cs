@@ -30,6 +30,9 @@ namespace Barista
         IBeverage AddBean(Bean bean);
         IBeverage AddToCup();
         IBeverage Validate(Func<Water, bool> waterQuery);
+        IBeverage AddMilk(Milk milk);
+        IBeverage AddMilkFoam(MilkFoam milkFoam);
+        IBeverage AddChocolateSyrup(ChocolateSyrup chocolate);
         Beverage ToBeverage();
     }
 
@@ -38,6 +41,9 @@ namespace Barista
     {
         public Water _water { get; set; }
         public Bean _bean { get; set; }
+        public Milk _milk { get; set; }
+        public MilkFoam _milkfoam { get; set; }
+        public ChocolateSyrup _chocolatesyrup { get; set; }
 
 
         public IBeverage AddWater(Water water)
@@ -83,7 +89,7 @@ namespace Barista
 
         public void HeatWater(Water water)
         {
-            for (int i =water.Temperature; i < 93; i++)
+            for (int i = water.Temperature; i < 93; i++)
             {
                 Thread.Sleep(1000);
                 water.Temperature++;
@@ -94,6 +100,21 @@ namespace Barista
         public Beverage ToBeverage()
         {
             return this;
+        }
+
+        public IBeverage AddMilk()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBeverage AddMilkFoam()
+        {
+            throw new NotImplementedException();
+        }
+
+        public IBeverage AddChocolateSyrup()
+        {
+            throw new NotImplementedException();
         }
     }
 
@@ -109,4 +130,20 @@ namespace Barista
         public int Amount { get; set; }
         public int Temperature { get; set; }
     }
+
+    class Milk
+    {
+        public int Amount { get; set; }
+    }
+
+    class MilkFoam
+    {
+        public int Amount { get; set; }
+    }
+
+    class ChocolateSyrup
+    {
+        public int Amount { get; set; }
+    }
+
 }
