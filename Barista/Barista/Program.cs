@@ -16,9 +16,10 @@ namespace Barista
                 .AddBean(new Bean { AmountInG = 5, BeanType = "Arabica" })
                 .AddWater(new Water { Amount = 10, Temperature = 89 })
                 .Validate(x => x.Temperature < 90)
+                .AddIngredient(new ChocolateSyrup { Amount = 5 })
                 .ToBeverage();
 
-            Console.WriteLine(smallEspresso._bean.BeanType);
+            //Console.WriteLine(smallEspresso._milk.Amount);
             Console.ReadKey();
         }
     }
@@ -30,10 +31,13 @@ namespace Barista
         IBeverage AddBean(Bean bean);
         IBeverage AddToCup();
         IBeverage Validate(Func<Water, bool> waterQuery);
-        IBeverage AddMilk(Milk milk);
-        IBeverage AddMilkFoam(MilkFoam milkFoam);
-        IBeverage AddChocolateSyrup(ChocolateSyrup chocolate);
+        IBeverage AddIngredient(IIngredient ingredient);
         Beverage ToBeverage();
+    }
+
+    interface IIngredient
+    {
+        int Amount { get; set; }
     }
 
 
@@ -41,9 +45,9 @@ namespace Barista
     {
         public Water _water { get; set; }
         public Bean _bean { get; set; }
-        public Milk _milk { get; set; }
-        public MilkFoam _milkfoam { get; set; }
-        public ChocolateSyrup _chocolatesyrup { get; set; }
+        public IIngredient _milk { get; set; }
+        public IIngredient _milkfoam { get; set; }
+        public IIngredient _chocolatesyrup { get; set; }
 
 
         public IBeverage AddWater(Water water)
@@ -83,7 +87,6 @@ namespace Barista
             {
                 HeatWater(_water);
             }
-            else { Console.WriteLine("utanför"); }
             return this;
         }
 
@@ -91,7 +94,7 @@ namespace Barista
         {
             for (int i = water.Temperature; i < 93; i++)
             {
-                Thread.Sleep(1000);
+                Thread.Sleep(500);
                 water.Temperature++;
                 Console.WriteLine($"tempratur {i}");
             }
@@ -102,17 +105,38 @@ namespace Barista
             return this;
         }
 
-        public IBeverage AddMilk()
+        public IBeverage AddIngredient(IIngredient ingredient)
+        {
+            switch (ingredient.GetType().ToString())
+            {
+                case "Barista.Milk":
+                    _milk = ingredient;
+                    break;
+                case "Barista.MilkFoam":
+                    _milkfoam = ingredient;
+                    break;
+                case "Barista.ChocolateSyrup":
+                    _chocolatesyrup = ingredient;
+                    break;
+                default:
+                    Console.WriteLine(ingredient.GetType().ToString());
+                    break;
+            }
+            return this;
+            //if (_bean != null)
+            //{
+            //    throw new Exception("Bean already exists");
+            //}
+            //_bean = bean;
+            //return this;
+        }
+
+        public IBeverage AddMilkFoam(MilkFoam milkFoam)
         {
             throw new NotImplementedException();
         }
 
-        public IBeverage AddMilkFoam()
-        {
-            throw new NotImplementedException();
-        }
-
-        public IBeverage AddChocolateSyrup()
+        public IBeverage AddChocolateSyrup(ChocolateSyrup chocolateSyrup)
         {
             throw new NotImplementedException();
         }
@@ -131,17 +155,17 @@ namespace Barista
         public int Temperature { get; set; }
     }
 
-    class Milk
+    class Milk : IIngredient
     {
         public int Amount { get; set; }
     }
 
-    class MilkFoam
+    class MilkFoam : IIngredient
     {
         public int Amount { get; set; }
     }
 
-    class ChocolateSyrup
+    class ChocolateSyrup : IIngredient
     {
         public int Amount { get; set; }
     }
