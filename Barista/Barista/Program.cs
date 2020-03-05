@@ -13,7 +13,8 @@ namespace Barista
             
             var smallEspresso = new Espresso()
                 .AddBean(new Bean { AmountInG = 5, BeanType = "Arabica" })
-                .AddWater(new Water { Amount = 10, Temperature = 80 });
+                .AddWater(new Water { Amount = 10, Temperature = 91 })
+                .Validate(x => x.Temperature <= 90);
             Console.WriteLine(smallEspresso);
             Console.ReadKey();
         }
@@ -69,21 +70,28 @@ namespace Barista
 
         public IBeverage Validate(Func<Water, bool> waterQuery)
         {
-            throw new NotImplementedException();
+            if (waterQuery.Invoke(_water))
+            {
+                HeatWater(_water);
+            }
+            else { Console.WriteLine("utanför"); }
+            return this;
+        }
+
+        public void HeatWater(Water water)
+        {
+
         }
 
         public override string ToString()
         {
-            Console.WriteLine($"Din espresso är gjord av : {_bean.AmountInG}g {_bean.BeanType}-bönor" +
+            return ($"Din espresso är gjord av : {_bean.AmountInG}g {_bean.BeanType}-bönor " +
                 $"och {_water.Amount}cl av {_water.Temperature} grader varmt vatten.");
-
-            return base.ToString();
         }
     }
 
      class Bean
     {
-        
         public string BeanType { get; set; }
         public int AmountInG { get; set; }
 
