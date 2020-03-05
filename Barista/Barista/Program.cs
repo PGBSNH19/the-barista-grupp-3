@@ -11,90 +11,77 @@ namespace Barista
         static void Main(string[] args)
         {
             
-            var smallEspresso = new Espresso().AddBean(5,"Arabic").AddWater(6);
+            var smallEspresso = new Espresso()
+                .AddBean(new Bean { AmountInG = 5, BeanType = "Arabica" })
+                .AddWater(new Water { Amount = 10, Temperature = 80 });
+            Console.WriteLine(smallEspresso);
+            Console.ReadKey();
         }
     }
 
 
-    interface IEspresso
+    interface IBeverage
     {
-        void Brew();
-        IEspresso AddWater(int amount);
-        IEspresso AddBean(int amount,string sort);
-        IEspresso AddToCup();
-        
+        IBeverage AddWater(Water water);
+        IBeverage AddBean(Bean bean);
+        IBeverage AddToCup();
+        IBeverage Validate(Func<Water, bool> waterQuery);
+        string GetBean();
     }
 
 
-    class Espresso :IEspresso
+    class Espresso :IBeverage
     {
-            
-        public int WaterAmount;
-        public int BeanAMount;
-        public string Sort;
-        public Cup myCup;
-        public IEspresso AddBean(int amount, string sort)
+        public Water _water { get; set; }
+        public Bean _bean { get; set; }
+
+
+        public IBeverage AddWater(Water water)
         {
-            //här hämtar vi ur en lista med bönor
-
-            BeanAMount = amount;
-            Sort = sort;
-
-            return this;
-        }
-
-        public IEspresso AddToCup()
-        {
-            if (WaterAmount>10)
+            if (_water != null)
             {
-
+                throw new Exception("water already exists");
             }
+            _water = water;
+
             return this;
         }
 
-        public IEspresso AddWater(int amount)
+        public IBeverage AddBean(Bean bean)
         {
-            WaterAmount = amount;
+            if (_bean == null)
+            {
+                _bean = bean;
+            }
+
             return this;
         }
 
-        public void Brew()
+        public IBeverage AddToCup()
+        {
+            return this;
+        }
+
+        public string GetBean()
+        {
+            return _bean.BeanType;
+        }
+
+        public IBeverage Validate(Func<Water, bool> waterQuery)
         {
             throw new NotImplementedException();
         }
 
+        public override string ToString()
+        {
+            Console.WriteLine($"Din espresso är gjord av : {_bean.AmountInG}g {_bean.BeanType}-bönor" +
+                $"och {_water.Amount}cl av {_water.Temperature} grader varmt vatten.");
+
+            return base.ToString();
+        }
     }
 
-
-    class CoffeeMaker
-    {
-        private double _temp;
-
-        public double Temp
-        {
-            get { return _temp; }
-            set { _temp = value; }
-        }
-        private int _waterAmount;
-
-        public int WaterAmount
-        {
-            get { return _waterAmount; }
-            set { _waterAmount = value; }
-        }
-        private int _timeSeconds;
-
-        public int TimeSeconds
-        {
-            get { return _timeSeconds; }
-            set { _timeSeconds = value; }
-        }
-        private string _manufacturer;
-
-      
-
-    }
-    class Bean
+     class Bean
     {
         
         public string BeanType { get; set; }
@@ -102,24 +89,9 @@ namespace Barista
 
     }
 
-    class Cup
+    class Water
     {
-        private int _volumeInCl;
-
-        public int VolumeInCl
-        {
-            get { return _volumeInCl; }
-            set { _volumeInCl = value; }
-        }
-        private bool _isTakeAway;
-
-        public bool IsTakeAway
-        {
-            get { return _isTakeAway; }
-            set { _isTakeAway = value; }
-        }
-
-
+        public int Amount { get; set; }
+        public int Temperature { get; set; }
     }
-
 }
