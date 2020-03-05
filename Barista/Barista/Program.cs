@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Barista
 {
@@ -10,12 +11,14 @@ namespace Barista
     {
         static void Main(string[] args)
         {
-            
-            var smallEspresso = new Espresso()
+
+            var smallEspresso = new Beverage()
                 .AddBean(new Bean { AmountInG = 5, BeanType = "Arabica" })
-                .AddWater(new Water { Amount = 10, Temperature = 91 })
-                .Validate(x => x.Temperature <= 90);
-            Console.WriteLine(smallEspresso);
+                .AddWater(new Water { Amount = 10, Temperature = 89 })
+                .Validate(x => x.Temperature < 90)
+                .ToBeverage();
+
+            Console.WriteLine(smallEspresso._bean.BeanType);
             Console.ReadKey();
         }
     }
@@ -27,11 +30,11 @@ namespace Barista
         IBeverage AddBean(Bean bean);
         IBeverage AddToCup();
         IBeverage Validate(Func<Water, bool> waterQuery);
-        string GetBean();
+        Beverage ToBeverage();
     }
 
 
-    class Espresso :IBeverage
+    class Beverage :IBeverage
     {
         public Water _water { get; set; }
         public Bean _bean { get; set; }
@@ -50,11 +53,11 @@ namespace Barista
 
         public IBeverage AddBean(Bean bean)
         {
-            if (_bean == null)
+            if (_bean != null)
             {
-                _bean = bean;
+                throw new Exception("Bean already exists");
             }
-
+            _bean = bean;
             return this;
         }
 
@@ -80,13 +83,17 @@ namespace Barista
 
         public void HeatWater(Water water)
         {
-
+            for (int i =water.Temperature; i < 93; i++)
+            {
+                Thread.Sleep(1000);
+                water.Temperature++;
+                Console.WriteLine($"tempratur {i}");
+            }
         }
 
-        public override string ToString()
+        public Beverage ToBeverage()
         {
-            return ($"Din espresso är gjord av : {_bean.AmountInG}g {_bean.BeanType}-bönor " +
-                $"och {_water.Amount}cl av {_water.Temperature} grader varmt vatten.");
+            return this;
         }
     }
 
