@@ -16,10 +16,10 @@ namespace Barista
                 .AddBean(new Bean { AmountInG = 5, BeanType = "Arabica" })
                 .AddWater(new Water { Amount = 10, Temperature = 89 })
                 .Validate(x => x.Temperature < 90)
-                .AddIngredient(new ChocolateSyrup { Amount = 5 })
+                .AddIngredient(new ChocolateSyrup { AmountInCl = 5 })
                 .ToBeverage();
 
-            //Console.WriteLine(smallEspresso._milk.Amount);
+            Console.WriteLine(smallEspresso._chocolatesyrup);
             Console.ReadKey();
         }
     }
@@ -37,7 +37,7 @@ namespace Barista
 
     interface IIngredient
     {
-        int Amount { get; set; }
+        int AmountInCl { get; set; }
     }
 
 
@@ -48,7 +48,6 @@ namespace Barista
         public IIngredient _milk { get; set; }
         public IIngredient _milkfoam { get; set; }
         public IIngredient _chocolatesyrup { get; set; }
-
 
         public IBeverage AddWater(Water water)
         {
@@ -123,12 +122,6 @@ namespace Barista
                     break;
             }
             return this;
-            //if (_bean != null)
-            //{
-            //    throw new Exception("Bean already exists");
-            //}
-            //_bean = bean;
-            //return this;
         }
 
         public IBeverage AddMilkFoam(MilkFoam milkFoam)
@@ -157,17 +150,22 @@ namespace Barista
 
     class Milk : IIngredient
     {
-        public int Amount { get; set; }
+        public int AmountInCl { get; set; }
     }
 
     class MilkFoam : IIngredient
     {
-        public int Amount { get; set; }
+        public int AmountInCl { get; set; }
     }
 
     class ChocolateSyrup : IIngredient
     {
-        public int Amount { get; set; }
+        public int AmountInCl { get; set; }
+
+        public override string ToString()
+        {
+            return $"{AmountInCl} cl Chocolate Syrup";
+        }
     }
 
 }
